@@ -23,23 +23,10 @@ public class PromptModel {
 }
 
 public class GameController : MonoBehaviour {
-    public static GameController instance = null;
-
     [SerializeField] private TextAsset promptsCsv;
     public static List<PromptModel> LoadedPrompts { get; private set; }
 
-    private int round;
-    private int score;
-    private PromptModel nextPrompt;
-
     private void Awake() {
-        if ( null == instance ) {
-            instance = this;
-            DontDestroyOnLoad( gameObject );
-        } else {
-            Destroy( gameObject );
-        }
-
         LoadedPrompts = new List<PromptModel>();
         using (CsvReader csv = new CsvReader(new StringReader(promptsCsv.text), CultureInfo.InvariantCulture))
         {
@@ -60,9 +47,10 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    public void StartNewGame() {
-        round = 0;
-        score = 0;
-        nextPrompt = null;
+    public static PromptModel GetPromptById(int id) {
+        if (id >= 0 && id < LoadedPrompts.Count) {
+            return LoadedPrompts[id];
+        }
+        return null;
     }
 }
