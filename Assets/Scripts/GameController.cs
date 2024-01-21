@@ -6,10 +6,12 @@ using System.IO;
 using System.Globalization;
 
 public class PromptModel {
+    public int Id { get; private set; }
     public string Prompt { get; private set; }
     public string[] Answers { get; private set; }
 
-    public PromptModel(string prompt, string answer1, string answer2, string answer3, string answer4) {
+    public PromptModel(int id, string prompt, string answer1, string answer2, string answer3, string answer4) {
+        Id = id;
         Prompt = prompt;
         Answers = new string[4] {
             answer1,
@@ -24,7 +26,7 @@ public class GameController : MonoBehaviour {
     public static GameController instance = null;
 
     [SerializeField] private TextAsset promptsCsv;
-    private static List<PromptModel> availablePrompts;
+    public static List<PromptModel> LoadedPrompts { get; private set; }
 
     private int round;
     private int score;
@@ -33,21 +35,21 @@ public class GameController : MonoBehaviour {
     private void Awake() {
         if ( null == instance ) {
             instance = this;
-            DontDestroyOnLoad( this.gameObject );
+            DontDestroyOnLoad( gameObject );
         } else {
-            Destroy( this.gameObject );
+            Destroy( gameObject );
         }
-    }
 
-    private void Start() {
-        availablePrompts = new List<PromptModel>();
+        LoadedPrompts = new List<PromptModel>();
         using (CsvReader csv = new CsvReader(new StringReader(promptsCsv.text), CultureInfo.InvariantCulture))
         {
             csv.Read();
             csv.ReadHeader();
+            int id = 0;
             while (csv.Read())
             {
-                availablePrompts.Add(new PromptModel(
+                LoadedPrompts.Add(new PromptModel(
+                    id++,
                     csv.GetField("Prompt"),
                     csv.GetField("Answer 1"),
                     csv.GetField("Answer 2"),
@@ -63,6 +65,4 @@ public class GameController : MonoBehaviour {
         score = 0;
         nextPrompt = null;
     }
-
-
 }
