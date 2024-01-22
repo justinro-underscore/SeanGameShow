@@ -206,7 +206,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3589287}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: StartNextRound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3589287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,6 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1e96455f8313a943a1fc97d23cca345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUIController: {fileID: 2033863712}
   startGameButton: {fileID: 738093716}
   endGameButton: {fileID: 415091691}
   currentPromptText: {fileID: 1089480074}
@@ -1541,7 +1554,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 415091692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: EndGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &415091692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1663,7 +1688,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 445772900}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleAnswer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &445772900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1872,12 +1909,12 @@ GameObject:
   - component: {fileID: 544779204}
   - component: {fileID: 544779203}
   m_Layer: 5
-  m_Name: SurveySays
+  m_Name: SurveySaysTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &544779202
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2376,7 +2413,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 709227877}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: AdjustRedTeamScore
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &709227877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2498,7 +2547,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 738093717}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: StartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &738093717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2604,10 +2665,10 @@ RectTransform:
   m_Father: {fileID: 1294424005}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 89, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 66.66666, y: -60}
+  m_SizeDelta: {x: 89, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &763594917
 MonoBehaviour:
@@ -2865,7 +2926,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 781882201}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleAnswer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &781882201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2919,7 +2992,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &843436309
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3688,7 +3761,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1056367234}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleAnswer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1056367234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4639,7 +4724,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1221519413}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleX
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1221519413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4705,7 +4802,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.3882353, g: 0.6156863, b: 0.972549, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5219,7 +5316,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1387238615}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: SelectRandomPrompt
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1387238615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5476,7 +5585,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1424682836}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: AdjustRedTeamScore
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1424682836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5688,6 +5809,7 @@ Transform:
   m_Children:
   - {fileID: 1231754589}
   - {fileID: 1471448619}
+  - {fileID: 2033863711}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6078,7 +6200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1610174553}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: AdjustBlueTeamScore
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1610174553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6150,10 +6284,10 @@ RectTransform:
   m_Father: {fileID: 1294424005}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 89, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -60}
+  m_SizeDelta: {x: 89, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1611376693
 MonoBehaviour:
@@ -6637,7 +6771,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1674072265}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleAnswer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1674072265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7164,7 +7310,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1739860903}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleX
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1739860903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7286,7 +7444,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1757224108}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: AdjustBlueTeamScore
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1757224108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8045,7 +8215,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1918549596}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 295369834}
+        m_TargetAssemblyTypeName: ProducerUIController, Assembly-CSharp
+        m_MethodName: ToggleX
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1918549596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8543,10 +8725,10 @@ RectTransform:
   m_Father: {fileID: 1294424005}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 89, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 333.3333, y: -60}
+  m_SizeDelta: {x: 89, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2011188324
 MonoBehaviour:
@@ -8586,6 +8768,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2011188322}
   m_CullTransparentMesh: 1
+--- !u!1 &2033863710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2033863711}
+  - component: {fileID: 2033863712}
+  m_Layer: 0
+  m_Name: PlayerUIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2033863711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033863710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1483183436}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2033863712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2033863710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c3405ba0dd96e4e9a1edac1aca2df1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundImage: {fileID: 686465506}
+  titleImage: {fileID: 544779202}
+  questionUI: {fileID: 843436309}
+  promptText: {fileID: 1193463533}
+  answerImageParent: {fileID: 606565915}
+  xImages:
+  - {fileID: 763594916}
+  - {fileID: 1611376692}
+  - {fileID: 2011188323}
+  inactiveXColor: {r: 0.24705882, g: 0.24705882, b: 0.24705882, a: 1}
 --- !u!1 &2090392470
 GameObject:
   m_ObjectHideFlags: 0

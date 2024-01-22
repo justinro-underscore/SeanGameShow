@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class ProducerUIController : MonoBehaviour {
     [Header("Elements")]
+    [SerializeField] private PlayerUIController playerUIController;
+
     [Header("Game Control Buttons")]
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button endGameButton;
@@ -35,6 +37,8 @@ public class ProducerUIController : MonoBehaviour {
     private bool gameRunning;
     private int nextPromptId;
     private List<int> availablePromptIds;
+    private bool[] answerVisible;
+    private bool[] xVisible;
 
     private int redTeamScore;
     private int blueTeamScore;
@@ -61,6 +65,9 @@ public class ProducerUIController : MonoBehaviour {
         contentHeight += playedPromptsDivider.sizeDelta.y;
         promptScrollviewParent.sizeDelta = new Vector2(promptScrollviewParent.sizeDelta.x, contentHeight);
 
+        answerVisible = new bool[answerButtons.Count];
+        xVisible = new bool[xButtons.Count];
+
         // Reset all of the UI components
         Reset();
     }
@@ -86,12 +93,39 @@ public class ProducerUIController : MonoBehaviour {
         redTeamPlusButton.interactable = true;
         blueTeamPlusButton.interactable = true;
         gameRunning = true;
-        StartRound();
+        playerUIController.StartGame(nextPromptId);
+        StartNextRoundInternal();
     }
 
     public void EndGame() {
         gameRunning = false;
         Reset();
+    }
+
+    public void ToggleAnswer(int i) {
+        if (i >= 0 && i < answerButtons.Count) {
+            bool toVisible = !answerVisible[i];
+            answerButtons[i].GetComponent<Image>().color = toVisible ? Color.green : Color.white;
+            answerVisible[i] = toVisible;
+            playerUIController.SetAnswerVisible(i, toVisible);
+        }
+    }
+
+    public void ToggleX(int i) {
+        if (i >= 0 && i < xButtons.Count) {
+            bool toVisible = !xVisible[i];
+            xButtons[i].GetComponent<Image>().color = toVisible ? Color.red : Color.white;
+            xVisible[i] = toVisible;
+            playerUIController.SetXVisible(i, toVisible);
+        }
+    }
+
+    public void AdjustRedTeamScore(bool increase) {
+        SetRedTeamScore(redTeamScore + (increase ? 1 : -1));
+    }
+
+    public void AdjustBlueTeamScore(bool increase) {
+        SetBlueTeamScore(blueTeamScore + (increase ? 1 : -1));
     }
 
     public void SelectRandomPrompt() {
@@ -104,7 +138,8 @@ public class ProducerUIController : MonoBehaviour {
 
     public void StartNextRound() {
         if (nextPromptId >= 0) {
-            StartRound();
+            StartNextRoundInternal();
+            playerUIController.StartNextRound(nextPromptId);
         }
     }
 
@@ -143,10 +178,15 @@ public class ProducerUIController : MonoBehaviour {
         for (int i = 0; i < answerButtons.Count; i++) {
             Button answerButton = answerButtons[i];
             answerButton.interactable = false;
+            answerButton.GetComponent<Image>().color = Color.white;
             answerButton.GetComponentInChildren<TMP_Text>().text = "Answer " + (i + 1);
+            answerVisible[i] = false;
         }
-        foreach (Button xButton in xButtons) {
+        for (int i = 0; i < xButtons.Count; i++) {
+            Button xButton = xButtons[i];
             xButton.interactable = false;
+            xButton.GetComponent<Image>().color = Color.white;
+            xVisible[i] = false;
         }
         SetRedTeamScore(0);
         redTeamPlusButton.interactable = false;
@@ -167,7 +207,7 @@ public class ProducerUIController : MonoBehaviour {
         }
     }
 
-    private void StartRound() {
+    private void StartNextRoundInternal() {
         if (nextPromptId < 0) {
             return;
         }
@@ -177,9 +217,11 @@ public class ProducerUIController : MonoBehaviour {
             Button answerButton = answerButtons[i];
             answerButton.GetComponent<Image>().color = Color.white;
             answerButton.GetComponentInChildren<TMP_Text>().text = (i + 1) + ". " + prompt.Answers[i];
+            answerVisible[i] = false;
         }
-        foreach (Button xButton in xButtons) {
-            xButton.GetComponent<Image>().color = Color.white;
+        for (int i = 0; i < xButtons.Count; i++) {
+            xButtons[i].GetComponent<Image>().color = Color.white;
+            xVisible[i] = false;
         }
         nextRoundButton.interactable = false;
         SetNextPromptText("Not selected");
