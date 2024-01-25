@@ -99,6 +99,7 @@ public class ProducerUIController : MonoBehaviour {
 
     public void EndGame() {
         gameRunning = false;
+        playerUIController.EndGame();
         Reset();
     }
 
@@ -138,8 +139,8 @@ public class ProducerUIController : MonoBehaviour {
 
     public void StartNextRound() {
         if (nextPromptId >= 0) {
-            StartNextRoundInternal();
             playerUIController.StartNextRound(nextPromptId);
+            StartNextRoundInternal();
         }
     }
 

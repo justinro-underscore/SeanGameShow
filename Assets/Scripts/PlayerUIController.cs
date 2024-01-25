@@ -21,7 +21,6 @@ public class PlayerUIController : MonoBehaviour {
     [Header("Variables")]
     [SerializeField] private Color inactiveXColor;
 
-    private bool inGame;
     private Sequence[] answerSeqs;
     private Sequence[] xSeqs;
 
@@ -32,7 +31,6 @@ public class PlayerUIController : MonoBehaviour {
      ***************************************************************************/
 
     private void Start() {
-        inGame = false;
         answers = new Tuple<Transform, Transform>[answerImageParent.childCount / 2];
         for (int i = 0; i < (answerImageParent.childCount / 2); i++) {
             answers[i] = new Tuple<Transform, Transform>(
@@ -63,55 +61,45 @@ public class PlayerUIController : MonoBehaviour {
         backgroundImage.localScale = Vector2.one;
         backgroundImage.eulerAngles = Vector2.zero;
         titleImage.localScale = Vector2.one;
-        titleImage.eulerAngles = Vector2.zero;
+        titleImage.eulerAngles = Vector3.zero;
 
         Sequence seq = DOTween.Sequence().Append(titleImage.DOScale(0, 1f).SetEase(Ease.InBack))
             .AppendCallback(() => {
                 DOTween.Kill(titleImage);
                 titleImage.gameObject.SetActive(false);
-            });
-
-        seq.AppendCallback(() => {
-                StartNextRoundInternal(promptId);
-                questionUI.localScale = Vector2.zero;
-                questionUI.gameObject.SetActive(true);
-            }).Append(questionUI.DOScale(1, 0.3f).SetEase(Ease.OutBack));
-
-        inGame = true;
+            })
+            .AppendInterval(0.5f)
+            .AppendCallback(() => LoadInQuestionUI(promptId, true));
     }
 
     public void EndGame() {
+        DOTween.KillAll();
+        questionUI.localScale = Vector2.one;
+        DOTween.Sequence().Append(questionUI.DOScale(0, 0.8f).SetEase(Ease.InBack))
+            .AppendInterval(0.5f)
+            .AppendCallback(() => {
+                titleImage.localScale = Vector2.zero;
+                titleImage.eulerAngles = Vector3.zero;
+                titleImage.gameObject.SetActive(true);
+            })
+            .Append(titleImage.DOScale(0, 0.5f).SetEase(Ease.Linear))
+            .Append(GetTitleSequence());
     }
 
-    public void StartNextRound(int promptId, Sequence seq=null) {
+    public void StartNextRound(int promptId) {
+        DOTween.KillAll();
+        questionUI.localScale = Vector2.one;
+        DOTween.Sequence().Append(questionUI.DOScale(0, 1f).SetEase(Ease.InBack))
+            .AppendInterval(0.5f)
+            .AppendCallback(() => LoadInQuestionUI(promptId, false));
     }
 
     public void SetAnswerVisible(int answerIdx, bool toVisible) {
-        if (answerSeqs[answerIdx] != null) answerSeqs[answerIdx].Kill();
-        Transform hiddenAnswer = answers[answerIdx].Item1;
-        Transform shownAnswer = answers[answerIdx].Item2;
-        (toVisible ? shownAnswer : hiddenAnswer).localScale = new Vector3(0, 1, 1);
-        (toVisible ? hiddenAnswer : shownAnswer).localScale = Vector2.one;
-        hiddenAnswer.gameObject.SetActive(true);
-        shownAnswer.gameObject.SetActive(true);
-        answerSeqs[answerIdx] = DOTween.Sequence().Append((toVisible ? hiddenAnswer : shownAnswer).DOScaleX(0, 0.1f).SetEase(Ease.Linear))
-            .AppendCallback(() => (toVisible ? hiddenAnswer : shownAnswer).gameObject.SetActive(false))
-            .Append((toVisible ? shownAnswer : hiddenAnswer).DOScaleX(1, 0.1f).SetEase(Ease.Linear))
-            .AppendCallback(() => answerSeqs[answerIdx] = null);
+        SetAnswerVisible(answerIdx, toVisible, true);
     }
 
     public void SetXVisible(int xIdx, bool toVisible) {
-        if (xSeqs[xIdx] != null) xSeqs[xIdx].Kill();
-        Transform xImage = xImages[xIdx];
-        xImage.localScale = Vector3.one;
-        xImage.localEulerAngles = Vector3.zero;
-        xImage.GetComponent<Image>().color = toVisible ? Color.white : inactiveXColor;
-        if (toVisible) {
-            xSeqs[xIdx] = DOTween.Sequence().Append(xImage.DOScale(1.3f, 0.1f))
-                .Join(xImage.DOShakeRotation(0.3f, new Vector3(0, 0, 15), 20, 90, false, ShakeRandomnessMode.Harmonic))
-                .Append(xImage.DOScale(1, 0.1f))
-                .AppendCallback(() => xSeqs[xIdx] = null);
-        }
+        SetXVisible(xIdx, toVisible, true);
     }
 
     /***************************************************************************
@@ -120,14 +108,6 @@ public class PlayerUIController : MonoBehaviour {
      **                                                                       **
      ***************************************************************************/
 
-    private void StartNextRoundInternal(int promptId) {
-        PromptModel prompt = GameController.GetPromptById(promptId);
-        promptText.text = prompt.Prompt;
-        for (int i = 0; i < answers.Length; i++) {
-            answers[i].Item2.GetComponentInChildren<TMP_Text>().text = prompt.Answers[i];
-        }
-    }
-
     private Sequence GetTitleSequence() {
         return DOTween.Sequence().Append(
                 DOTween.Sequence().Append(titleImage.DORotate(new Vector3(0, 0, 15), 0.5f))
@@ -135,5 +115,95 @@ public class PlayerUIController : MonoBehaviour {
             .Join(
                 DOTween.Sequence().Append(titleImage.DOScale(1.2f, 0.675f))
                     .Append(titleImage.DOScale(0.9f, 1.125f).SetEase(Ease.InOutCubic).SetLoops(-1, LoopType.Yoyo)));
+    }
+
+    private void SetupQuestionUIForNextRound(int promptId, bool startingGame) {
+        // If starting the game, load in elements one at a time
+        if (startingGame) {
+            promptText.transform.localScale = Vector2.zero;
+        }
+        for (int i = 0; i < answers.Length; i++) {
+            SetAnswerVisible(i, false, false);
+            if (startingGame) {
+                answers[i].Item1.GetComponent<Image>().color = Color.clear;
+                answers[i].Item1.GetComponentInChildren<TMP_Text>().color = Color.clear;
+            }
+        }
+        for (int i = 0; i < xImages.Count; i++) {
+            SetXVisible(i, false, false);
+            if (startingGame) {
+                xImages[i].GetComponent<Image>().color = Color.clear;
+            }
+        }
+        questionUI.localScale = startingGame ? Vector2.one : Vector2.zero;
+
+        PromptModel prompt = GameController.GetPromptById(promptId);
+        promptText.text = prompt.Prompt;
+        for (int i = 0; i < answers.Length; i++) {
+            answers[i].Item2.GetComponentInChildren<TMP_Text>().text = prompt.Answers[i];
+        }
+
+        questionUI.gameObject.SetActive(true);
+    }
+
+    private void LoadInQuestionUI(int promptId, bool startingGame) {
+        SetupQuestionUIForNextRound(promptId, startingGame);
+        if (startingGame) {
+            Sequence seq = DOTween.Sequence().Append(promptText.transform.DOScale(1, 0.3f).SetEase(Ease.OutBack))
+                .AppendInterval(0.5f);
+            for (int i = 0; i < answers.Length; i++) {
+                seq.Append(answers[i].Item1.GetComponent<Image>().DOColor(Color.white, 0.3f));
+                seq.Join(answers[i].Item1.GetComponentInChildren<TMP_Text>().DOColor(Color.black, 0.3f));
+            }
+            seq.AppendInterval(0.1f);
+            for (int i = 0; i < xImages.Count; i++) {
+                seq.Append(xImages[i].GetComponent<Image>().DOColor(inactiveXColor, 0.3f));
+            }
+        }
+        else {
+            questionUI.DOScale(1, 0.6f).SetEase(Ease.OutBack);
+        }
+    }
+
+    private void SetAnswerVisible(int answerIdx, bool toVisible, bool animate) {
+        if (answerSeqs[answerIdx] != null) {
+            answerSeqs[answerIdx].Kill();
+            answerSeqs[answerIdx] = null;
+        }
+        Transform hiddenAnswer = answers[answerIdx].Item1;
+        Transform shownAnswer = answers[answerIdx].Item2;
+        if (animate) {
+            (toVisible ? shownAnswer : hiddenAnswer).localScale = new Vector3(0, 1, 1);
+            (toVisible ? hiddenAnswer : shownAnswer).localScale = Vector2.one;
+            hiddenAnswer.gameObject.SetActive(true);
+            shownAnswer.gameObject.SetActive(true);
+            answerSeqs[answerIdx] = DOTween.Sequence().Append((toVisible ? hiddenAnswer : shownAnswer).DOScaleX(0, 0.1f).SetEase(Ease.Linear))
+                .AppendCallback(() => (toVisible ? hiddenAnswer : shownAnswer).gameObject.SetActive(false))
+                .Append((toVisible ? shownAnswer : hiddenAnswer).DOScaleX(1, 0.1f).SetEase(Ease.Linear))
+                .AppendCallback(() => answerSeqs[answerIdx] = null);
+        }
+        else {
+            hiddenAnswer.localScale = Vector2.one;
+            hiddenAnswer.gameObject.SetActive(!toVisible);
+            shownAnswer.localScale = Vector2.one;
+            shownAnswer.gameObject.SetActive(toVisible);
+        }
+    }
+
+    public void SetXVisible(int xIdx, bool toVisible, bool animate) {
+        if (xSeqs[xIdx] != null) {
+            xSeqs[xIdx].Kill();
+            xSeqs[xIdx] = null;
+        }
+        Transform xImage = xImages[xIdx];
+        xImage.localScale = Vector3.one;
+        xImage.localEulerAngles = Vector3.zero;
+        xImage.GetComponent<Image>().color = toVisible ? Color.white : inactiveXColor;
+        if (animate && toVisible) {
+            xSeqs[xIdx] = DOTween.Sequence().Append(xImage.DOScale(1.3f, 0.1f))
+                .Join(xImage.DOShakeRotation(0.3f, new Vector3(0, 0, 15), 20, 90, false, ShakeRandomnessMode.Harmonic))
+                .Append(xImage.DOScale(1, 0.1f))
+                .AppendCallback(() => xSeqs[xIdx] = null);
+        }
     }
 }
