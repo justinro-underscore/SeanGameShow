@@ -52,16 +52,24 @@ public class ProducerUIController : MonoBehaviour {
     private void Start() {
         // Set up the prompts list
         float contentHeight = 0;
-        foreach (PromptModel prompt in GameController.LoadedPrompts) {
-            RectTransform promptObj = Instantiate(promptOptionPrefab, promptScrollviewParent);
-            promptObj.GetComponentInChildren<TMP_Text>().text = prompt.Prompt;
-            promptObj.GetComponent<Button>().onClick.AddListener(() => SelectPrompt(prompt.Id));
-            promptObj.name = GetPromptOptionName(prompt.Id);
-            contentHeight += promptObj.sizeDelta.y;
+        float contentSpace = promptScrollviewParent.GetComponent<VerticalLayoutGroup>().spacing;
+        foreach (PromptListData promptListData in GameController.LoadedPrompts) {
+            RectTransform promptsDivider = Instantiate(promptDividerPrefab, promptScrollviewParent);
+            promptsDivider.GetComponent<TMP_Text>().text = promptListData.Name;
+            promptsDivider.name = GetPromptDividerName(promptListData.Name);
+            contentHeight += promptsDivider.sizeDelta.y + contentSpace;
+
+            foreach (PromptModel prompt in promptListData.Prompts) {
+                RectTransform promptObj = Instantiate(promptOptionPrefab, promptScrollviewParent);
+                promptObj.GetComponentInChildren<TMP_Text>().text = prompt.Prompt;
+                promptObj.GetComponent<Button>().onClick.AddListener(() => SelectPrompt(prompt.Id));
+                promptObj.name = GetPromptOptionName(prompt.Id);
+                contentHeight += promptObj.sizeDelta.y + contentSpace;
+            }
         }
         RectTransform playedPromptsDivider = Instantiate(promptDividerPrefab, promptScrollviewParent);
         playedPromptsDivider.GetComponent<TMP_Text>().text = "Played";
-        playedPromptsDivider.name = "PromptDivider:Played";
+        playedPromptsDivider.name = GetPromptDividerName("Played");
         contentHeight += playedPromptsDivider.sizeDelta.y;
         promptScrollviewParent.sizeDelta = new Vector2(promptScrollviewParent.sizeDelta.x, contentHeight);
 
@@ -199,12 +207,17 @@ public class ProducerUIController : MonoBehaviour {
 
         // Order the prompt options (assumes LoadedPrompts is in order)
         availablePromptIds = new List<int>();
+        int siblingIdx = 0;
         for (int i = 0; i < GameController.LoadedPrompts.Count; i++) {
-            int promptId = GameController.LoadedPrompts[i].Id;
-            availablePromptIds.Add(promptId);
-            Transform promptOption = GetPromptOptionById(promptId);
-            promptOption.GetComponent<Image>().color = Color.white;
-            promptOption.SetSiblingIndex(i);
+            PromptListData promptListData = GameController.LoadedPrompts[i];
+            promptScrollviewParent.Find(GetPromptDividerName(promptListData.Name)).SetSiblingIndex(siblingIdx++);
+            for (int j = 0; j < promptListData.Prompts.Count; j++) {
+                int promptId = promptListData.Prompts[j].Id;
+                availablePromptIds.Add(promptId);
+                Transform promptOption = GetPromptOptionById(promptId);
+                promptOption.GetComponent<Image>().color = Color.white;
+                promptOption.SetSiblingIndex(siblingIdx++);
+            }
         }
     }
 
@@ -261,6 +274,10 @@ public class ProducerUIController : MonoBehaviour {
 
     private void SetNextPromptText(string promptText) {
         nextPromptText.text = "Next Prompt: " + promptText;
+    }
+
+    private string GetPromptDividerName(string name) {
+        return "PromptDivider:" + name;
     }
 
     private string GetPromptOptionName(int id) {

@@ -3271,7 +3271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13dd32b5a5480fc4386996da6ece14b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  promptsCsv: {fileID: 4900000, guid: 6d22f2d236f840c4984af1ce712e1687, type: 3}
+  promptsDatas:
+  - Name: Default Pack
+    PromptsCsv: {fileID: 4900000, guid: 8b3e11e231b0bd5408fa76a2dfe895c6, type: 3}
+  - Name: Prompt Pack 1
+    PromptsCsv: {fileID: 4900000, guid: 9aea26014b58f9b41a5bcba165ad5da2, type: 3}
 --- !u!4 &989511689
 Transform:
   m_ObjectHideFlags: 0
