@@ -18,6 +18,9 @@ public class PlayerUIController : MonoBehaviour {
     private Tuple<Transform, Transform>[] answers;
     [SerializeField] private List<Transform> xImages;
 
+    [Header("Producer Elements")]
+    [SerializeField] private GameObject producerOverlay;
+
     [Header("Variables")]
     [SerializeField] private Color inactiveXColor;
 
@@ -63,6 +66,7 @@ public class PlayerUIController : MonoBehaviour {
         titleImage.localScale = Vector2.one;
         titleImage.eulerAngles = Vector3.zero;
 
+        producerOverlay.SetActive(true);
         Sequence seq = DOTween.Sequence().Append(titleImage.DOScale(0, 1f).SetEase(Ease.InBack))
             .AppendCallback(() => {
                 DOTween.Kill(titleImage);
@@ -74,6 +78,7 @@ public class PlayerUIController : MonoBehaviour {
 
     public void EndGame() {
         DOTween.KillAll();
+        producerOverlay.SetActive(true);
         questionUI.localScale = Vector2.one;
         DOTween.Sequence().Append(questionUI.DOScale(0, 0.8f).SetEase(Ease.InBack))
             .AppendInterval(0.5f)
@@ -83,11 +88,13 @@ public class PlayerUIController : MonoBehaviour {
                 titleImage.gameObject.SetActive(true);
             })
             .Append(titleImage.DOScale(0, 0.5f).SetEase(Ease.Linear))
+            .AppendCallback(() => producerOverlay.SetActive(false))
             .Append(GetTitleSequence());
     }
 
     public void StartNextRound(int promptId) {
         DOTween.KillAll();
+        producerOverlay.SetActive(true);
         questionUI.localScale = Vector2.one;
         DOTween.Sequence().Append(questionUI.DOScale(0, 1f).SetEase(Ease.InBack))
             .AppendInterval(0.5f)
@@ -159,9 +166,11 @@ public class PlayerUIController : MonoBehaviour {
             for (int i = 0; i < xImages.Count; i++) {
                 seq.Append(xImages[i].GetComponent<Image>().DOColor(inactiveXColor, 0.3f));
             }
+            seq.AppendCallback(() => producerOverlay.SetActive(false));
         }
         else {
-            questionUI.DOScale(1, 0.6f).SetEase(Ease.OutBack);
+            DOTween.Sequence().Append(questionUI.DOScale(1, 0.6f).SetEase(Ease.OutBack))
+                .AppendCallback(() => producerOverlay.SetActive(false));
         }
     }
 
