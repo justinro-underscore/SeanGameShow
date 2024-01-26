@@ -111,6 +111,10 @@ public class ProducerUIController : MonoBehaviour {
         Reset();
     }
 
+    public void ExitGame() {
+        Application.Quit();
+    }
+
     public void ToggleAnswer(int i) {
         if (i >= 0 && i < answerButtons.Count) {
             bool toVisible = !answerVisible[i];
