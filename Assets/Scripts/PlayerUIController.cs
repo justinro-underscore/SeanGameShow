@@ -54,21 +54,26 @@ public class PlayerUIController : MonoBehaviour {
      ***************************************************************************/
 
     public void Begin() {
-        DOTween.Sequence().Append(backgroundImage.DOScale(1, 2).SetEase(Ease.Linear))
-            .Join(titleImage.DOScale(1, 2).SetEase(Ease.Linear))
-            .Join(backgroundImage.DOLocalRotate(new Vector3(0, 0, 360 * 5), 2, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
-            .Join(titleImage.DOLocalRotate(new Vector3(0, 0, 360 * 5), 2, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
+        AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.ThemeMusicWithIntro);
+        float introTime = 1.5f;
+        DOTween.Sequence().Append(backgroundImage.DOScale(1, introTime).SetEase(Ease.Linear))
+            .Join(titleImage.DOScale(1, introTime).SetEase(Ease.Linear))
+            .Join(backgroundImage.DOLocalRotate(new Vector3(0, 0, 360 * 4), introTime, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
+            .Join(titleImage.DOLocalRotate(new Vector3(0, 0, 360 * 4), introTime, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
             .Append(GetTitleSequence());
     }
 
     public void StartGame(int promptId) {
         DOTween.KillAll();
+        AudioController.Instance.StopAllOneShotAudio();
+        AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Bling);
         backgroundImage.localScale = Vector2.one;
         backgroundImage.eulerAngles = Vector2.zero;
         titleImage.localScale = Vector2.one;
         titleImage.eulerAngles = Vector3.zero;
 
         producerOverlay.SetActive(true);
+        AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Whoosh2, 0.6f);
         Sequence seq = DOTween.Sequence().Append(titleImage.DOScale(0, 1f).SetEase(Ease.InBack))
             .AppendCallback(() => {
                 DOTween.Kill(titleImage);
@@ -80,8 +85,10 @@ public class PlayerUIController : MonoBehaviour {
 
     public void EndGame() {
         DOTween.KillAll();
+        AudioController.Instance.StopAllOneShotAudio();
         producerOverlay.SetActive(true);
         questionUI.localScale = Vector2.one;
+        AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Whoosh2, 0.5f);
         DOTween.Sequence().Append(questionUI.DOScale(0, 0.8f).SetEase(Ease.InBack))
             .AppendInterval(0.5f)
             .AppendCallback(() => {
@@ -90,14 +97,19 @@ public class PlayerUIController : MonoBehaviour {
                 titleImage.gameObject.SetActive(true);
             })
             .Append(titleImage.DOScale(0, 0.5f).SetEase(Ease.Linear))
-            .AppendCallback(() => producerOverlay.SetActive(false))
+            .AppendCallback(() => {
+                producerOverlay.SetActive(false);
+                AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.ThemeMusicNoIntro);
+            })
             .Append(GetTitleSequence());
     }
 
     public void StartNextRound(int promptId) {
         DOTween.KillAll();
+        AudioController.Instance.StopAllOneShotAudio();
         producerOverlay.SetActive(true);
         questionUI.localScale = Vector2.one;
+        AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Whoosh2, 0.6f);
         DOTween.Sequence().Append(questionUI.DOScale(0, 1f).SetEase(Ease.InBack))
             .AppendInterval(0.5f)
             .AppendCallback(() => LoadInQuestionUI(promptId, false));
@@ -105,10 +117,16 @@ public class PlayerUIController : MonoBehaviour {
 
     public void SetAnswerVisible(int answerIdx, bool toVisible) {
         SetAnswerVisible(answerIdx, toVisible, true);
+        if (toVisible) {
+            AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.CorrectAnswer);
+        }
     }
 
     public void SetXVisible(int xIdx, bool toVisible) {
         SetXVisible(xIdx, toVisible, true);
+        if (toVisible) {
+            AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.IncorrectAnswer);
+        }
     }
 
     /***************************************************************************
@@ -158,19 +176,23 @@ public class PlayerUIController : MonoBehaviour {
     private void LoadInQuestionUI(int promptId, bool startingGame) {
         SetupQuestionUIForNextRound(promptId, startingGame);
         if (startingGame) {
+            AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Whoosh1);
             Sequence seq = DOTween.Sequence().Append(promptText.transform.DOScale(1, 0.3f).SetEase(Ease.OutBack))
                 .AppendInterval(0.5f);
             for (int i = 0; i < answers.Length; i++) {
+                seq.AppendCallback(() =>  AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Click));
                 seq.Append(answers[i].Item1.GetComponent<Image>().DOColor(Color.white, 0.3f));
                 seq.Join(answers[i].Item1.GetComponentInChildren<TMP_Text>().DOColor(Color.black, 0.3f));
             }
             seq.AppendInterval(0.1f);
             for (int i = 0; i < xImages.Count; i++) {
+                seq.AppendCallback(() =>  AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.BaseBump));
                 seq.Append(xImages[i].GetComponent<Image>().DOColor(inactiveXColor, 0.3f));
             }
             seq.AppendCallback(() => producerOverlay.SetActive(false));
         }
         else {
+            AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.Whoosh4, 0.1f);
             DOTween.Sequence().Append(questionUI.DOScale(1, 0.6f).SetEase(Ease.OutBack))
                 .AppendCallback(() => producerOverlay.SetActive(false));
         }
