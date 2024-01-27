@@ -762,6 +762,42 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: 57e00c7fcb8a8134cb97037dca706a77, type: 3}
     volume: 1
     audioName: 
+  - audioClip: {fileID: 8300000, guid: 320a8a9fbff78bf49b90a7f7b69978cc, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: ee5b1f7459e64d74d8ef0476c5c83e1d, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 3fc81ce46a8ab0046a644e083c1fca41, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: e019fd4356b8ac740b15a83927bd8138, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 56b75eea3680ec540aa96ad59126866a, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 6778d8230f76dde4588265b47c2b2e07, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: cc516df91727c8e4eaa08fbdee8f8efc, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 30fcfc2eb170ee245bbab956af60a45c, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 0d66c883ac7771f4aa78a819897f112e, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 6d16d431d2c11e244bb625c4a8ff2f46, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: 07902d88549aafa4fa07efe7b354ccb0, type: 3}
+    volume: 1
+    audioName: 
+  - audioClip: {fileID: 8300000, guid: d904b2934b940914a9852343984d14c1, type: 3}
+    volume: 1
+    audioName: 
   ChaosSoundModifier: 0
 --- !u!4 &113157449
 Transform:

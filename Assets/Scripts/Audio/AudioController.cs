@@ -15,12 +15,24 @@ public static class SoundEffectKeys
     public const string CashRegister = "CashRegister";
     public const string MarioCoin = "MarioCoin";
     public const string TacoBell = "TacoBell";
+    public const string HellYeah = "HellYeah";
+    public const string LetsaGo = "LetsaGo";
+    public const string Nice = "Nice";
+    public const string OwenWilson = "OwenWilson";
+    public const string ZeldaChest = "ZeldaChest";
+    public const string DaBest = "DaBest";
     public static readonly string[] CorrectAnswerKeys = {
         CorrectAnswer,
         NiceShot,
         CashRegister,
         MarioCoin,
-        TacoBell
+        TacoBell,
+        HellYeah,
+        LetsaGo,
+        Nice,
+        OwenWilson,
+        ZeldaChest,
+        DaBest
     };
 
     // Incorrect answers
@@ -31,6 +43,12 @@ public static class SoundEffectKeys
     public const string SadTrombone = "SadTrombone";
     public const string Wilhelm = "Wilhelm";
     public const string WindowsError = "WindowsError";
+    public const string Fart = "Fart";
+    public const string MarioFall = "MarioFall";
+    public const string Oof = "Oof";
+    public const string Moo = "Moo";
+    public const string TromboneDown = "TromboneDown";
+    public const string MarshallHurt = "MarshallHurt";
     public static readonly string[] IncorrectAnswerKeys = {
         IncorrectAnswer,
         Bonk,
@@ -38,7 +56,13 @@ public static class SoundEffectKeys
         Fail,
         SadTrombone,
         Wilhelm,
-        WindowsError
+        WindowsError,
+        Fart,
+        MarioFall,
+        Oof,
+        Moo,
+        TromboneDown,
+        MarshallHurt
     };
 
     // Whooshes
