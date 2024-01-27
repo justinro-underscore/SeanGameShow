@@ -8,10 +8,12 @@ public class ProducerUIController : MonoBehaviour {
     [SerializeField] private PlayerUIController playerUIController;
     [SerializeField] private GameObject overlay;
 
-    [Header("Game Control Buttons")]
+    [Header("Game Control Elements")]
     [SerializeField] private Button beginButton;
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button endGameButton;
+    [SerializeField] private TMP_Text chaosSoundModValText;
+    [SerializeField] private Slider chaosSoundModSlider;
 
     [Header("Prompt / Answers Elements")]
     [SerializeField] private TMP_Text currentPromptText;
@@ -121,6 +123,12 @@ public class ProducerUIController : MonoBehaviour {
 
     public void ExitGame() {
         Application.Quit();
+    }
+
+    public void UpdateChaosSoundModVal() {
+        float val = Mathf.Clamp01(chaosSoundModSlider.value);
+        AudioController.Instance.ChaosSoundModifier = val;
+        chaosSoundModValText.text = Mathf.FloorToInt(val * 100) + "%";
     }
 
     public void ToggleAnswer(int i) {

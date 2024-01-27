@@ -7,14 +7,22 @@ public static class SoundEffectKeys
     // Theme music
     public const string ThemeMusicWithIntro = "GameIntro";
     public const string ThemeMusicNoIntro = "GameIntroNoBeginSting";
-    
+    public const string FamilyFeud = "FamilyFeud";
+
     // Correct answers
     public const string CorrectAnswer = "CorrectAnswer";
     public const string NiceShot = "NiceShot";
     public const string CashRegister = "CashRegister";
     public const string MarioCoin = "MarioCoin";
     public const string TacoBell = "TacoBell";
-    
+    public static readonly string[] CorrectAnswerKeys = {
+        CorrectAnswer,
+        NiceShot,
+        CashRegister,
+        MarioCoin,
+        TacoBell
+    };
+
     // Incorrect answers
     public const string IncorrectAnswer = "Buzzer";
     public const string Bonk = "Bonk";
@@ -23,6 +31,15 @@ public static class SoundEffectKeys
     public const string SadTrombone = "SadTrombone";
     public const string Wilhelm = "Wilhelm";
     public const string WindowsError = "WindowsError";
+    public static readonly string[] IncorrectAnswerKeys = {
+        IncorrectAnswer,
+        Bonk,
+        CrowdAww,
+        Fail,
+        SadTrombone,
+        Wilhelm,
+        WindowsError
+    };
 
     // Whooshes
     public const string Whoosh1 = "Whoosh1";
@@ -62,6 +79,10 @@ public class AudioController : MonoBehaviour
     private Dictionary<int, GameAudioSource> oneShotAudioSources = new Dictionary<int, GameAudioSource>();
     private int oneShotAudioSourceNextId = 1;
 
+    public float ChaosSoundModifier = 0f;
+    private List<string> chaosCorrectKeys;
+    private List<string> chaosIncorrectKeys;
+
     private void Awake()
     {
         if (Instance == null)
@@ -84,6 +105,13 @@ public class AudioController : MonoBehaviour
         }
 
         VerifyAudioSources();
+
+        chaosCorrectKeys = new List<string>();
+        foreach (string key in SoundEffectKeys.CorrectAnswerKeys)
+            chaosCorrectKeys.Add(key);
+        chaosIncorrectKeys = new List<string>();
+        foreach (string key in SoundEffectKeys.IncorrectAnswerKeys)
+            chaosIncorrectKeys.Add(key);
     }
 
     private void Update()
@@ -153,15 +181,67 @@ public class AudioController : MonoBehaviour
 
     /**************************************************/
 
+    public void PlayThemeMusicNoIntro()
+    {
+        float effectVal = UnityEngine.Random.value;
+        if (effectVal < ChaosSoundModifier) {
+            PlayOneShotAudio(SoundEffectKeys.FamilyFeud);
+        }
+        else {
+            PlayOneShotAudio(SoundEffectKeys.ThemeMusicNoIntro);
+        }
+    }
+
+    public void PlayCorrectSoundEffect()
+    {
+        float effectVal = UnityEngine.Random.value;
+        if (effectVal < ChaosSoundModifier) {
+            int idx = Mathf.FloorToInt(UnityEngine.Random.value * chaosCorrectKeys.Count);
+            if (idx == chaosCorrectKeys.Count) idx--;
+            PlayOneShotAudio(chaosCorrectKeys[idx]);
+            chaosCorrectKeys.RemoveAt(idx);
+            if (chaosCorrectKeys.Count == 0) {
+                foreach (string key in SoundEffectKeys.CorrectAnswerKeys)
+                    chaosCorrectKeys.Add(key);
+            }
+        }
+        else {
+            PlayOneShotAudio(SoundEffectKeys.CorrectAnswer);
+        }
+    }
+
+    public void PlayIncorrectSoundEffect()
+    {
+        float effectVal = UnityEngine.Random.value;
+        if (effectVal < ChaosSoundModifier) {
+            int idx = Mathf.FloorToInt(UnityEngine.Random.value * chaosIncorrectKeys.Count);
+            if (idx == chaosIncorrectKeys.Count) idx--;
+            PlayOneShotAudio(chaosIncorrectKeys[idx]);
+            chaosIncorrectKeys.RemoveAt(idx);
+            if (chaosIncorrectKeys.Count == 0) {
+                foreach (string key in SoundEffectKeys.IncorrectAnswerKeys)
+                    chaosIncorrectKeys.Add(key);
+            }
+        }
+        else {
+            PlayOneShotAudio(SoundEffectKeys.IncorrectAnswer);
+        }
+    }
+
+    /**************************************************/
+
     public void VerifyAudioSources()
     {
         List<string> invalidSoundEffectKeys = new List<string>();
         foreach (System.Reflection.FieldInfo constant in typeof(SoundEffectKeys).GetFields())
         {
-            string clipName = (string)constant.GetValue(null);
-            if (!audioClips.ContainsKey(clipName))
+            if (constant.GetType() == typeof(string))
             {
-                invalidSoundEffectKeys.Add(clipName);
+                string clipName = (string)constant.GetValue(null);
+                if (!audioClips.ContainsKey(clipName))
+                {
+                    invalidSoundEffectKeys.Add(clipName);
+                }
             }
         }
 

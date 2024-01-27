@@ -55,7 +55,7 @@ public class PlayerUIController : MonoBehaviour {
 
     public void Begin() {
         AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.ThemeMusicWithIntro);
-        float introTime = 1.5f;
+        float introTime = 1.6f;
         DOTween.Sequence().Append(backgroundImage.DOScale(1, introTime).SetEase(Ease.Linear))
             .Join(titleImage.DOScale(1, introTime).SetEase(Ease.Linear))
             .Join(backgroundImage.DOLocalRotate(new Vector3(0, 0, 360 * 4), introTime, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
@@ -99,7 +99,7 @@ public class PlayerUIController : MonoBehaviour {
             .Append(titleImage.DOScale(0, 0.5f).SetEase(Ease.Linear))
             .AppendCallback(() => {
                 producerOverlay.SetActive(false);
-                AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.ThemeMusicNoIntro);
+                AudioController.Instance.PlayThemeMusicNoIntro();
             })
             .Append(GetTitleSequence());
     }
@@ -118,14 +118,14 @@ public class PlayerUIController : MonoBehaviour {
     public void SetAnswerVisible(int answerIdx, bool toVisible) {
         SetAnswerVisible(answerIdx, toVisible, true);
         if (toVisible) {
-            AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.CorrectAnswer);
+            AudioController.Instance.PlayCorrectSoundEffect();
         }
     }
 
     public void SetXVisible(int xIdx, bool toVisible) {
         SetXVisible(xIdx, toVisible, true);
         if (toVisible) {
-            AudioController.Instance.PlayOneShotAudio(SoundEffectKeys.IncorrectAnswer);
+            AudioController.Instance.PlayIncorrectSoundEffect();
         }
     }
 
