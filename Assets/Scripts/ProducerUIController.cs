@@ -6,8 +6,10 @@ using System.Collections.Generic;
 public class ProducerUIController : MonoBehaviour {
     [Header("Elements")]
     [SerializeField] private PlayerUIController playerUIController;
+    [SerializeField] private GameObject overlay;
 
     [Header("Game Control Buttons")]
+    [SerializeField] private Button beginButton;
     [SerializeField] private Button startGameButton;
     [SerializeField] private Button endGameButton;
 
@@ -85,6 +87,12 @@ public class ProducerUIController : MonoBehaviour {
      **                            PUBLIC METHODS                             **
      **                                                                       **
      ***************************************************************************/
+
+    public void Begin() {
+        overlay.SetActive(false);
+        beginButton.gameObject.SetActive(false);
+        playerUIController.Begin();
+    }
 
     public void StartGame() {
         if (nextPromptId < 0) {

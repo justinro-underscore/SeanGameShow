@@ -45,12 +45,6 @@ public class PlayerUIController : MonoBehaviour {
 
         backgroundImage.localScale = Vector2.zero;
         titleImage.localScale = Vector2.zero;
-        DOTween.Sequence().Append(backgroundImage.DOScale(1, 2).SetEase(Ease.Linear))
-            .Join(titleImage.DOScale(1, 2).SetEase(Ease.Linear))
-            .Join(backgroundImage.DOLocalRotate(new Vector3(0, 0, 360 * 5), 2, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
-            .Join(titleImage.DOLocalRotate(new Vector3(0, 0, 360 * 5), 2, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
-            .Append(GetTitleSequence());
-            
     }
 
     /***************************************************************************
@@ -58,6 +52,14 @@ public class PlayerUIController : MonoBehaviour {
      **                            PUBLIC METHODS                             **
      **                                                                       **
      ***************************************************************************/
+
+    public void Begin() {
+        DOTween.Sequence().Append(backgroundImage.DOScale(1, 2).SetEase(Ease.Linear))
+            .Join(titleImage.DOScale(1, 2).SetEase(Ease.Linear))
+            .Join(backgroundImage.DOLocalRotate(new Vector3(0, 0, 360 * 5), 2, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
+            .Join(titleImage.DOLocalRotate(new Vector3(0, 0, 360 * 5), 2, RotateMode.LocalAxisAdd).SetEase(Ease.Linear))
+            .Append(GetTitleSequence());
+    }
 
     public void StartGame(int promptId) {
         DOTween.KillAll();
