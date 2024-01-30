@@ -4095,6 +4095,8 @@ MonoBehaviour:
     PromptsCsv: {fileID: 4900000, guid: 8b3e11e231b0bd5408fa76a2dfe895c6, type: 3}
   - Name: Prompt Pack 1
     PromptsCsv: {fileID: 4900000, guid: 9aea26014b58f9b41a5bcba165ad5da2, type: 3}
+  - Name: Movie Prompt Pack 1
+    PromptsCsv: {fileID: 4900000, guid: bcbdcf72d52e7dd4f8829d8f7eb5993c, type: 3}
 --- !u!4 &989511689
 Transform:
   m_ObjectHideFlags: 0
